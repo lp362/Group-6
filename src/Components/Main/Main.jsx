@@ -1,5 +1,6 @@
 import React from 'react'
 import './Main.css'
+import programming from '../Assets/programming.jpg'
 
 const Main = () => {
 
@@ -8,18 +9,14 @@ const Main = () => {
         <div className='main'>
             <div className="main-left">
                 <h2>Programming courses for everyone</h2>
-                <div>
+                <div className="programming-poster">
                     <p>C++, Python, Java</p>
                     <p>for everyone</p>
 
                 </div>
 
                 <div className='main-latest-btn'>
-                    <div>Best rated courses</div>
-                    
-                    
-                    
-                    
+                    <div>Enroll now</div>
                     
 
                 </div>
@@ -27,6 +24,7 @@ const Main = () => {
             </div>
 
             <div className="main-right">
+                <img src={programming} alt=""/>
                
 
             </div>
