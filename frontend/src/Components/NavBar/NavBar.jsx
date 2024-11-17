@@ -31,8 +31,8 @@ const NavBar = () => {
 
             <div className='nav-login-cart'>
                 <button className='register'>Register</button>
-                <button className='login'>Login</button>
-                <img src={cart} alt=""/>
+                <Link to='/login'><button className='login'>Login</button></Link>
+                <Link to ='/cart'><img src={cart} alt=""/></Link>
 
                 <div className="nav-cart-count">0</div>
 
