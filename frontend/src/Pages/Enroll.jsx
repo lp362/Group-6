@@ -1,4 +1,5 @@
 import React from 'react'
+import Hero from '../Components/Hero/Hero'
 
 
 
@@ -9,7 +10,7 @@ const Enroll = () => {
         
         <div>
 
-
+            <Hero/>
 
 
         </div>
