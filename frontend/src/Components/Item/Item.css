@@ -1,0 +1,19 @@
+.item{
+    
+    margin-bottom: 50px;
+
+}
+
+.item img{
+
+    width: 700px;
+
+
+}
+
+.item:hover{
+
+    transform: scale(1.05);
+    transition:0.6s;
+
+}
