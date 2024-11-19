@@ -17,8 +17,8 @@ function App() {
      <Routes>
      <Route path='/' element={<Enroll/>}/>
      <Route path='/aboutUs' element={<Pages category="aboutUs"/>}/>
-     <Route path='/courses' element={<Pages category="courses"/>}/>
-     <Route path='/courses' element={<Pages category="contactUs"/>}/>
+     <Route path='/courses' element={<Course category="courses"/>}/>
+     <Route path='/contactUs' element={<Pages category="contactUs"/>}/>
      <Route path='/course' element={<Course/>}>
         <Route path=':courseID' element={<Course/>}/>
       </Route>
@@ -26,11 +26,6 @@ function App() {
       <Route path='/login' element ={<Login/>}/>
 
      </Routes>
-    
-    
-    
-    
-    
     </BrowserRouter>
 
    
