@@ -1,0 +1,20 @@
+.coursecategory-indexsort{
+    display: flex;
+    margin: 0px 170px;
+    justify-content: space-between;
+    align-items: center;
+}
+.coursecategory-sort{
+    padding:10 px 20px;
+    border-radius: 40px;
+    border: 1px solid #888;
+}
+.coursecategory-indexsort p span{
+    font-weight: 600;
+}
+.course-category-products{
+    margin: 20px 170px;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 80px;
+}
