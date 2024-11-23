@@ -9,6 +9,7 @@ import Login from './Pages/Login';
 import HomePage from "./Pages/HomePage";
 import AboutUs from './Pages/AboutUs';
 import Register from "./Pages/Register";
+import ContactUs from "./Pages/ContactUs";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/courses" element={<Course />} />
-        <Route path="/contactUs" element={<Pages category="contactUs" />} />
+        <Route path="/contactUs" element={<ContactUs/>} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/course" element={<Course />}>
           <Route path=":courseID" element={<Course />} />
