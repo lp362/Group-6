@@ -20,7 +20,7 @@ const Item = (props) => {
             <img src={props.image} alt=""/>
             <h2>{props.name}</h2>
             <p>{props.concept}</p>
-            <button onClick={handleEnroll}>Enroll</button>
+            <button onClick={handleEnroll}>Select</button>
            
         </div>
 
