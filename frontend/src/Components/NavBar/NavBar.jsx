@@ -50,7 +50,6 @@ const NavBar = () => {
         <Link to='/cart'>
           <img src={cart} alt="" />
         </Link>
-        <div className="nav-cart-count">0</div>
       </div>
     </div>
   );
