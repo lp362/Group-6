@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import '../styles/Apply.css';
 import { CartContext } from '../Components/Context/CartContext';
-import { addCourseToCart, fetchCourseDetails } from '../api'; // Import API calls
+import data_product from '../Components/Assets/all_courses'
 
 const Apply = () => {
     const { id } = useParams();
@@ -11,41 +11,34 @@ const Apply = () => {
 
     const [course, setCourse] = React.useState(null); // State for course details
 
-    // Fetch course details from the backend
+    // Load course details from `all_courses.js`
     React.useEffect(() => {
-        const loadCourseDetails = async () => {
-            try {
-                const courseData = await fetchCourseDetails(id); // API call to fetch course details
+        const loadCourseDetails = () => {
+            const courseData = data_product.find((item) => item.id === parseInt(id));
+            if (courseData) {
                 setCourse(courseData);
-            } catch (error) {
-                console.error("Failed to load course details:", error);
+            } else {
+                console.error("Course not found");
             }
         };
 
         loadCourseDetails();
     }, [id]);
 
-    const handleConfirm = async () => {
+    const handleConfirm = () => {
         if (course) {
-            try {
-                // Add course to the backend cart
-                await addCourseToCart(course.id);
-                
-                // Update the cart context (optional, based on your requirements)
-                setCart([...cart, course]);
+            // Update the cart context
+            setCart([...cart, course]);
 
-                // Navigate to the cart page
-                navigate('/cart');
-            } catch (error) {
-                console.error("Failed to add course to cart:", error);
-            }
+            // Navigate to the cart page
+            navigate('/cart');
         }
     };
 
     return (
         <div className="apply-page">
             <h1>Course Selected: </h1>
-            {course && (
+            {course ? (
                 <>
                     <img src={course.image} alt={course.name} />
                     <h2>{course.name}</h2>
@@ -53,9 +46,12 @@ const Apply = () => {
                     <p>{course.concept_elaborate}</p>
                     <p><strong>Duration:</strong>{course.duration}</p>
                     <p><strong>Tutor: </strong>{course.tutor}</p>
+                    <p><strong>Duration: </strong>{course.duration}</p>
                     
                     <button onClick={handleConfirm}>Enroll</button>
                 </>
+            ) : (
+                <p>Loading course details...</p>
             )}
         </div>
     );
