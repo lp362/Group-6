@@ -4,10 +4,17 @@ from .views import CourseViewSet, CartViewSet, ContactFormViewSet, UserViewSet
 
 router = DefaultRouter()
 router.register(r'courses', CourseViewSet, basename='courses')
-router.register(r'cart', CartViewSet, basename='cart')
 router.register(r'contact', ContactFormViewSet, basename='contact')
-router.register(r'users', UserViewSet, basename='users')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('cart/', include([
+        path('', CartViewSet.as_view({'get': 'list', 'post': 'create'}), name='cart-list-create'),
+        path('<int:pk>/', CartViewSet.as_view({'delete': 'destroy'}), name='cart-destroy'),
+        path('confirm/', CartViewSet.as_view({'post': 'confirm'}), name='cart-confirm'),
+    ])),
+    path('users/', include([
+        path('', UserViewSet.as_view({'post': 'create'}), name='user-create'),
+        path('login/', UserViewSet.as_view({'post': 'login'}), name='user-login'),
+    ])),
 ]
