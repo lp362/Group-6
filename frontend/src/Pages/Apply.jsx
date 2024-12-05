@@ -41,6 +41,7 @@ const Apply = () => {
                     <h2>{course.name}</h2>
                     <p>{course.concept}</p>
                     <p>{course.concept_elaborate}</p>
+                    <p><strong>Duration:</strong>{course.duration}</p>
                     <p><strong>Tutor: </strong>{course.tutor}</p>
                     
                     <button onClick={handleConfirm}>Enroll</button>
