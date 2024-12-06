@@ -1,10 +1,22 @@
+/*make width/height include padding and borders */
+* {
+  box-sizing: border-box;
+}
+
+/*remove default margin/padding and set full height */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 .login-container {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f9f9f9;
+    background-color: #f9f0f0;
   }
   
   .login-box {
