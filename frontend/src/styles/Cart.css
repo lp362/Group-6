@@ -30,6 +30,7 @@
     background-color:#008000;
     color:aliceblue;
     font-weight: bold;
+    margin: 20px;
 
 
 }
@@ -51,9 +52,8 @@
 .confirm{
 
     margin-top: 50px;
-
-
-
-
+}
+.remove-button button{
+    color: #ff0000;
 }
 

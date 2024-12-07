@@ -1,7 +1,7 @@
-import React from 'react';
-import './Hero.css';
-import programming from '../Assets/Poster.jpg';
-import { Link } from 'react-router-dom';
+import React from "react";
+import "./Hero.css";
+import programming from "../Assets/Poster.jpg";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -10,7 +10,9 @@ const Hero = () => {
         <h1>Programming Courses for Everyone</h1>
         <p className="hero-description">Learn C++, Python, Java, and more for free!</p>
         <div className="main-latest-btn">
-          <Link to="/courses" className="enroll-button">Enroll Now</Link>
+          <Link to="/courses" className="enroll-button">
+            Enroll Now
+          </Link>
         </div>
       </div>
       <div className="hero-right">

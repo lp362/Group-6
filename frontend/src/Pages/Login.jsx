@@ -17,17 +17,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Client-side validation
+    if (!formData.email || !formData.password) {
+      setError("Both email and password are required.");
+      return;
+    }
+
     try {
       setLoading(true);
+      setError(""); // Clear previous errors
+
       // Call the backend login API
       const user = await loginUser(formData);
-      alert(`Welcome back, ${user.username}!`);
+      alert(`Welcome back, ${user.username || "user"}!`);
       setFormData({ email: "", password: "" });
-      setError("");
       navigate("/"); // Redirect to the home page after login
-    } catch (error) {
-      console.error("Login failed:", error);
-      setError("Invalid email or password");
+    } catch (err) {
+      console.error("Login failed:", err);
+      const serverError = err.response?.data?.error || "Invalid email or password";
+      setError(serverError);
     } finally {
       setLoading(false);
     }
@@ -36,8 +44,8 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>Login here</h2>
-        <p>Welcome back</p>
+        <h2>Login</h2>
+        <p>Welcome back! Please log in to your account.</p>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -56,14 +64,19 @@ const Login = () => {
             required
           />
           {error && <p className="error">{error}</p>}
-          <p className="forgot-password">Forgot your password?</p>
+          <p className="forgot-password">
+            <Link to="/forgot-password" className="forgot-password-link">
+              Forgot your password?
+            </Link>
+          </p>
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Logging in..." : "Sign in"}
           </button>
         </form>
         <p className="create-account">
+          Don't have an account?{" "}
           <Link to="/register" className="register-link">
-            Create new account
+            Create one here
           </Link>
         </p>
       </div>

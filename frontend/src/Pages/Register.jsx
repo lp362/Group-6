@@ -13,6 +13,7 @@ const Register = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false); // Add a loading state
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -23,15 +24,25 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+    // Client-side validation
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("All fields are required.");
+      setSuccess("");
       return;
     }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      setSuccess("");
+      return;
+    }
+
+    setLoading(true); // Show loading indicator
 
     try {
       // Call the backend registration API
       await registerUser({
-        name: formData.name,
+        username: formData.name, // Updated to match backend field name
         email: formData.email,
         password: formData.password,
       });
@@ -47,10 +58,13 @@ const Register = () => {
 
       // Redirect to login page after a short delay
       setTimeout(() => navigate("/login"), 3000);
-    } catch (error) {
-      console.error("Registration failed:", error);
-      setError("Registration failed. Please try again.");
+    } catch (err) {
+      console.error("Registration failed:", err);
+      const serverError = err.response?.data?.error || "Registration failed. Please try again.";
+      setError(serverError);
       setSuccess("");
+    } finally {
+      setLoading(false); // Hide loading indicator
     }
   };
 
@@ -62,7 +76,7 @@ const Register = () => {
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder="Username"
             value={formData.name}
             onChange={handleInputChange}
             required
@@ -93,7 +107,9 @@ const Register = () => {
           />
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
-          <button type="submit" className="register-button">Sign up</button>
+          <button type="submit" className="register-button" disabled={loading}>
+            {loading ? "Processing..." : "Sign up"}
+          </button>
         </form>
         <p className="already-account">
           <Link to="/login" className="login-link">

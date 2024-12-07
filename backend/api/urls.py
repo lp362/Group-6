@@ -2,12 +2,14 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import CourseViewSet, CartViewSet, ContactFormViewSet, UserViewSet
 
+# Create a router to handle model viewsets
 router = DefaultRouter()
 router.register(r'courses', CourseViewSet, basename='courses')
-router.register(r'contact', ContactFormViewSet, basename='contact')
+router.register(r'contact', ContactFormViewSet, basename='contact')  # Contact form endpoints
 
+# Define urlpatterns for cart and user-specific operations separately
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(router.urls)),  # Include all routes registered with the router
     path('cart/', include([
         path('', CartViewSet.as_view({'get': 'list', 'post': 'create'}), name='cart-list-create'),
         path('<int:pk>/', CartViewSet.as_view({'delete': 'destroy'}), name='cart-destroy'),
