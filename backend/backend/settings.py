@@ -3,7 +3,7 @@ import environ
 
 # Initialize environment variable handling
 env = environ.Env()
-environ.Env.read_env()  # This reads the .env file automatically
+environ.Env.read_env()  # Automatically read .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
-    'corsheaders',
+    'corsheaders',  # Added for CORS support
 ]
 
 # Middleware
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # Ensure this is first for CORS handling
+    'corsheaders.middleware.CorsMiddleware',  # Must be first for proper CORS handling
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,7 +49,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Updated to use a 'templates' directory
+        'DIRS': [BASE_DIR / 'templates'],  # Use a 'templates' directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,7 +64,7 @@ TEMPLATES = [
 
 # Database configuration
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres://localhost:5432/mydb'),  # This reads DATABASE_URL from the .env file
+    'default': env.db('DATABASE_URL')  # Reads DATABASE_URL from the .env file
 }
 
 # Password validation
@@ -89,11 +89,15 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static and media files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
+import os
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 
 # Default primary key field type
@@ -106,7 +110,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Set to IsAuthenticated in production
+        'rest_framework.permissions.AllowAny',  # Use IsAuthenticated in production
     ],
 }
 
@@ -126,7 +130,8 @@ LOGGING = {
 }
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True  # Allows all origins during development
+CORS_ALLOW_CREDENTIALS = True  # Allows cookies/credentials in requests
 
 # Static files handling in development
 if DEBUG:

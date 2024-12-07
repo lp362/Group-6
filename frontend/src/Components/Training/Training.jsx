@@ -3,6 +3,14 @@ import "./Training.css";
 import Item from "../Item/Item";
 import { fetchCourses } from "../../api";
 
+// Map local image paths
+const imageMap = {
+  "Java Programming": "/images/Java-programming.png",
+  "Python Programming": "/images/python.jpg",
+  "Web Development": "/images/html-css.png",
+  "C++ Programming": "/images/c++.png",
+};
+
 const Training = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,14 +22,14 @@ const Training = () => {
         const coursesData = await fetchCourses(); // Fetch courses data
         console.log("Fetched courses:", coursesData); // Debugging log
         setCourses(coursesData);
-        setLoading(false);  // Set loading to false after data is fetched
+        setLoading(false); // Set loading to false after data is fetched
       } catch (err) {
         console.error("Failed to fetch courses:", err);
         setError("Failed to load courses. Please try again.");
-        setLoading(false);  // Set loading to false in case of error
+        setLoading(false); // Set loading to false in case of error
       }
     };
-    
+
     loadCourses();
   }, []);
 
@@ -33,19 +41,19 @@ const Training = () => {
       <h1>List of Courses</h1>
       <hr />
       <div className="training-items">
-        {courses.map((item) => (
-          <Item
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            image={
-              item.image?.startsWith("http")
-                ? item.image
-                : `${process.env.REACT_APP_BACKEND_URL || "http://127.0.0.1:8000"}${item.image}`
-            }
-            concept={item.concept}
-          />
-        ))}
+        {courses.map((item) => {
+          const mappedImage = imageMap[item.name] || "/images/placeholder.png"; // Use fallback image if mapping is missing
+          console.log(`Course: ${item.name}, Image: ${mappedImage}`); // Debugging log for mapping
+          return (
+            <Item
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              image={mappedImage}
+              concept={item.concept}
+            />
+          );
+        })}
       </div>
     </div>
   );
