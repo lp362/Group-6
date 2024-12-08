@@ -1,58 +1,47 @@
 import axios from "axios";
 
-// API base URL (adjust using environment variables for flexibility)
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000/api";
+// Set the base URL for the API
+const API_BASE_URL = "http://127.0.0.1:8000/api"; // Ensure this is your backend URL
 
-// Create an Axios instance for API interactions
+// Create an Axios instance for consistency
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000, // Set a timeout of 10 seconds
+  timeout: 10000, // Set a reasonable timeout
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Helper to retrieve the auth token from localStorage
+// Function to add authentication token to requests if needed
 const getAuthHeader = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token"); // Adjust this to match your auth logic
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-// Automatically add auth headers to requests
-apiClient.interceptors.request.use(
-  (config) => {
-    config.headers = { ...config.headers, ...getAuthHeader() };
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Automatically add authentication headers to all requests
+apiClient.interceptors.request.use((config) => {
+  config.headers = { ...config.headers, ...getAuthHeader() };
+  return config;
+});
 
-// Handle global errors
+// Interceptor to handle global errors
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", error.response?.data || error.message);
-
+    console.error("API error:", error.response?.data || error.message);
     if (error.response) {
       console.error("Status:", error.response.status);
       console.error("Headers:", error.response.headers);
-
-      // Redirect to login on unauthorized errors
-      if (error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
-      }
     }
-
     return Promise.reject(error);
   }
 );
 
-// API methods
+// Fetch all available courses
 export const fetchCourses = async () => {
   try {
     const response = await apiClient.get("/courses/");
-    console.log("Courses fetched:", response.data);
+    console.log("Courses fetched:", response.data); // Log fetched data for debugging
     return response.data;
   } catch (error) {
     console.error("Error fetching courses:", error);
@@ -60,6 +49,7 @@ export const fetchCourses = async () => {
   }
 };
 
+// Fetch all cart items
 export const fetchCartItems = async () => {
   try {
     const response = await apiClient.get("/cart/");
@@ -70,16 +60,7 @@ export const fetchCartItems = async () => {
   }
 };
 
-export const addCourseToCart = async (courseId) => {
-  try {
-    const response = await apiClient.post("/cart/", { id: courseId });
-    return response.data;
-  } catch (error) {
-    console.error(`Error adding course ${courseId} to cart:`, error);
-    throw error;
-  }
-};
-
+// Remove a course from the cart
 export const removeCourseFromCart = async (courseId) => {
   try {
     const response = await apiClient.delete(`/cart/${courseId}/`);
@@ -90,6 +71,7 @@ export const removeCourseFromCart = async (courseId) => {
   }
 };
 
+// Confirm enrollment for courses in the cart
 export const confirmEnrollment = async () => {
   try {
     const response = await apiClient.post("/cart/confirm/", {});
@@ -100,6 +82,7 @@ export const confirmEnrollment = async () => {
   }
 };
 
+// Fetch detailed information about a specific course
 export const fetchCourseDetails = async (id) => {
   try {
     const response = await apiClient.get(`/courses/${id}/`);
@@ -110,6 +93,18 @@ export const fetchCourseDetails = async (id) => {
   }
 };
 
+// Add a course to the cart
+export const addCourseToCart = async (courseId) => {
+  try {
+    const response = await apiClient.post("/cart/", { id: courseId });
+    return response.data;
+  } catch (error) {
+    console.error(`Error adding course ${courseId} to cart:`, error);
+    throw error;
+  }
+};
+
+// Submit the contact form
 export const submitContactForm = async (data) => {
   try {
     const response = await apiClient.post("/contact/", data);
@@ -120,6 +115,7 @@ export const submitContactForm = async (data) => {
   }
 };
 
+// Register a new user
 export const registerUser = async (userData) => {
   try {
     const response = await apiClient.post("/users/", userData);
@@ -130,6 +126,7 @@ export const registerUser = async (userData) => {
   }
 };
 
+// Log in a user
 export const loginUser = async (credentials) => {
   try {
     const response = await apiClient.post("/users/login/", credentials);
@@ -138,17 +135,4 @@ export const loginUser = async (credentials) => {
     console.error("Error logging in user:", error);
     throw error;
   }
-};
-
-// Export all methods for easy import in other files
-export default {
-  fetchCourses,
-  fetchCartItems,
-  addCourseToCart,
-  removeCourseFromCart,
-  confirmEnrollment,
-  fetchCourseDetails,
-  submitContactForm,
-  registerUser,
-  loginUser,
 };
